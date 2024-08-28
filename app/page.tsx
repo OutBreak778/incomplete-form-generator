@@ -1,112 +1,112 @@
-import Image from "next/image";
+"use client";
+
+import { cn } from "@/lib/utils";
+import { Asap, Comfortaa } from "next/font/google";
+import cog from "../public/cog.png";
+import pyramid from "../public/pyramid.png";
+import cylinder from "../public/3dCylinder.png";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
+import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
+import Footer from "@/components/Footer";
+import BannerSection from "@/components/BannerSection";
+import { HoverBorderGradient } from "@/components/ui/hover-border-gradient";
+import Link from "next/link";
+import { useUser } from "@clerk/nextjs";
+import Headers from "@/components/Headers";
+import { Highlight } from "@/components/Highlight";
+
+const inter = Asap({ subsets: ["latin"], weight: "600" });
+const para = Comfortaa({ subsets: ["latin"], weight: "400" });
 
 export default function Home() {
+  const ref = useRef(null);
+  const { isSignedIn } = useUser();
+
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+
+  const translateY = useTransform(scrollYProgress, [0, 1], [150, -150]);
+  const translateZ = useTransform(scrollYProgress, [0, 1], [-150, 850]);
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 w-full max-w-5xl items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:size-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
+    <main
+      ref={ref}
+      className="flex min-h-screen flex-col items-center justify-between px-2 overflow-x-clip"
+    >
+      {" "}
+      <Headers />
+      <div className="container px-5">
+        <div className="md:flex mb-16 items-center justify-between">
+          <div className="md:w-[478px]">
+            <div className="text-sm inline-flex border border-[#222]/10 px-1 py-2 my-4 tracking-tight rounded-lg">
+              Version 2.0 is here
+            </div>
+            <h1 className="text-5xl md:text-7xl font-bold tracking-tight py-1 bg-gradient-to-b md:bg-gradient-to-b from-slate-900 to-[#001E80] bg-clip-text text-transparent">
+              Dynamic Forms with SmartForm
+            </h1>
+            <p className="text-xl text-[#010d3e] tracking-tight mt-6">
+              SmartForms leverages advanced AI to automatically generate
+              customized forms with ease. Designed by{" "}
+              <Highlight>Nikhil Mishra</Highlight>, it simplifies form creation,
+              making it intuitive and efficient for any project.
+            </p>
+            <div className={cn("flex gap-3 items-center mt-6")}>
+              <Link href={isSignedIn ? "/dashboard" : "/sign-in"}>
+                <Button variant="default">
+                  {isSignedIn ? (
+                    <span>Go to Dashboard</span>
+                  ) : (
+                    <span> Learn more</span>
+                  )}
+                  <ArrowRight className="w-5 h-5 ml-2" />
+                </Button>
+              </Link>
+            </div>
+          </div>
+          <div className="mt-20 md:mt-0 md:h-[544px] md:flex-1 relative">
+            <motion.img
+              src={cog.src}
+              alt="hero-image"
+              className="md:absolute md:h-[95%] md:w-auto md:max-w-none lg:left-40"
+              animate={{
+                translateY: [-30, 30],
+              }}
+              transition={{
+                repeat: Infinity,
+                repeatType: "mirror",
+                duration: 3,
+                ease: "easeInOut",
+              }}
             />
-          </a>
+            <motion.img
+              src={cylinder.src}
+              alt="cylinder image"
+              width={180}
+              className="hidden md:block -top-1 -left-20 md:absolute"
+              style={{
+                translateY: translateZ,
+              }}
+            />
+            <motion.img
+              src={pyramid.src}
+              alt="cylinder image"
+              width={200}
+              className="hidden xl:block -bottom-20 right-5 rotate-[30deg] md:absolute"
+              style={{
+                translateY: translateY,
+              }}
+            />
+          </div>
         </div>
-      </div>
-
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:mb-0 lg:w-full lg:max-w-5xl lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-sm opacity-50">
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className="mb-3 text-2xl font-semibold">
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className="m-0 max-w-[30ch] text-balance text-sm opacity-50">
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
+        <div>
+          <BannerSection />
+        </div>
+        <div className="mt-12">
+          <Footer />
+        </div>
       </div>
     </main>
   );
