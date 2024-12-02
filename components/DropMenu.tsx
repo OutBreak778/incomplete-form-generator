@@ -16,13 +16,10 @@ import {
   UserCircle,
   UserIcon,
 } from "lucide-react";
-// import { Button } from "./ui/button";
 import DotIcon from "./DotIcon";
 
-// Add imports
 import { VariantProps, cva } from "class-variance-authority";
 
-// Configure the styles for the Button and its variants and sizes
 const button = cva(["flex", "flex-row", "items-center", "rounded-xl"], {
   variants: {
     variant: {
@@ -47,9 +44,6 @@ const button = cva(["flex", "flex-row", "items-center", "rounded-xl"], {
     size: "small",
   },
 });
-
-// Extend the default Button types with props created by create-variance-authority
-
 
 const DropMenu = () => {
   const { signOut, openUserProfile } = useClerk();
@@ -140,7 +134,6 @@ const DropMenu = () => {
               asChild
               className="border-none outline-none hover:bg-gradient-to-r hover:from-[#e7e8f3] rounded-md hover:to-[#e7e8f3] hover:text-gray-800"
             >
-              {/* Create a Sign Out button -- signOut() takes a call back where the user is redirected */}
               <button
                 onClick={() => signOut(() => router.push("/"))}
                 className="py-3 flex flex-row gap-x-4 w-full px-2"
